@@ -47,9 +47,45 @@
     measurementId: "G-W2RVZQLPXV"
   };
 
+    // Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+//const app = firebase.initializeApp(firebaseConfig);
+//const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.login-form').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            // Save data to Firestore
+            await db.collection('users').add({
+                username: username,
+                password: password
+            });
+
+            document.getElementById('responseMessage').innerText = 'Data saved to Firebase!';
+        } catch (error) {
+            document.getElementById('responseMessage').innerText = 'Error: ' + error.message;
+        }
+    });
+});
+
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+
 </script>
     
 </body>
